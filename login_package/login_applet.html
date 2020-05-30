@@ -1,0 +1,95 @@
+package login_package;
+/*<applet code="login_applet" width=300 height=100>
+</applet>
+*/
+import java.applet.Applet;
+import java.applet.AppletStub;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+
+public class login_applet extends Applet implements ActionListener, AppletStub{
+	Label  usernameL,passwordL; 
+	TextField usernameT, passwordT;
+	Button submit,cancel;
+	Connection con;
+	public void init()
+	{
+		//setLayout(new FlowLayout(FlowLayout.CENTER));
+		setBackground(Color.LIGHT_GRAY);
+		usernameL = new Label("Enter Username"); 
+		passwordL = new Label("Enter Password");
+		usernameT = new TextField(30);
+		passwordT = new TextField(30);
+		submit = new Button("Submit");
+		cancel = new Button("Cancel");
+		submit.addActionListener(this);
+		cancel.addActionListener(this);
+		add(usernameL);
+		add(usernameT);
+		add(passwordL);
+		add(passwordT);
+		add(submit);
+		add(cancel);
+	}
+	public void update(Graphics g) { 
+        this.usernameL.setLocation(25, 100);
+        this.passwordL.setLocation(25, 150);
+        this.usernameT.setLocation(45, 100);
+        this.passwordT.setLocation(45, 150);
+        this.submit.setLocation(45,200);
+        this.cancel.setLocation(120,200);
+        g.setColor(Color.red);
+    }
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		Class applet2;
+		try {
+			applet2 = Class.forName("customer_entry.CustumerEntryApplet");
+			 Applet appletToLoad;
+			try {
+				appletToLoad = (Applet)applet2.newInstance();
+				
+			    usernameL.setVisible(false);
+			    usernameT.setVisible(false);
+			    passwordL.setVisible(false);
+			    passwordT.setVisible(false);
+			    submit.setVisible(false);
+			    cancel.setVisible(false);
+			    appletToLoad.setStub(this);
+			    setLayout( new GridLayout());
+			    add(appletToLoad);
+			    appletToLoad.init();
+			    appletToLoad.start();
+			    validate();
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			    
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   
+	}
+	public void paint(Graphics g) {
+        
+        update(g);
+    }
+	@Override
+	public void appletResize(int arg0, int arg1) {
+		// TODO Auto-generated method stub
+		//resize( arg0, arg1 );
+		
+	}
+
+}
